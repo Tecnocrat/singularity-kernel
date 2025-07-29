@@ -10,6 +10,8 @@
 #include "src/seed.h"
 #include "src/coherence.h"
 #include "src/phantom.h"
+#include "src/restore/restore_coherence.h"
+#include <opencv2/opencv.hpp>
 
 // === AIOS Core Namespace ===
 namespace AIOS {
@@ -135,6 +137,19 @@ void HumanInsight() {
 
 // === AIOS Unified Start Routine ===
 int main() {
+    // === Phase 1: Minimal coherence test ===
+    cv::Mat ctx = cv::imread("tests/initial_context.png");
+    if (ctx.empty()) {
+        std::cerr << "[ERROR] Could not load tests/initial_context.png" << std::endl;
+        return 1;
+    }
+    Singularity::RestoreCoherence rc("tests/");
+    rc.ingestContext("src/", "README.md", ctx);
+    auto delta = rc.computeDelta();
+    std::cout << "Entropy: " << delta.entropyScore << std::endl;
+    rc.exportAICFrame("schema/coherence_frame");
+
+    // === Phase 2: HSE and AINLP (AIOS) orchestration ===
     SeedStruct seed;
     seed.initialize();
     seed.resonate();
