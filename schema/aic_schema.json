@@ -1,0 +1,19 @@
+{
+  "aic_version": "0.1",
+  "timestamp": "2025-07-29T20:00:00Z",
+  "projectRoot": "C:/users/jesus/dev/cpp/singularity_kernel",
+  "entropyScore": 23.7,
+  "codeSnapshots": [
+    "seed.h", "coherence.h", "phantom.h", "main.cpp"
+  ],
+  "imageSnapshot": "state_20250729T200000Z.png",
+  "bosonicMap": {
+    "nodes": [
+      { "id": "ψ-BosonicEcho", "intensity": 0.0001 },
+      { "id": "TachyonicDelta", "intensity": 42.42 }
+    ],
+    "links": [
+      { "from": "ψ-BosonicEcho", "to": "TachyonicDelta", "weight": 0.89 }
+    ]
+  }
+}

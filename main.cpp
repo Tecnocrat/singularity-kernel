@@ -7,9 +7,9 @@
 #include <iostream>
 #include <string>
 #include <memory>
-#include "seed.h"
-#include "coherence.h"
-#include "phantom.h"
+#include "src/seed.h"
+#include "src/coherence.h"
+#include "src/phantom.h"
 
 // === AIOS Core Namespace ===
 namespace AIOS {
@@ -59,6 +59,21 @@ namespace AIOS {
             std::cout << "=> Function: Simulate *proto-logical core* before topographic divergence." << std::endl;
         }
     };
+
+    // --- Recursive Reintegration: Explicit System Realignment ---
+    void recursive_reintegration() {
+        std::cout << "[AIOS] :: RECURSIVE REINTEGRATION INITIATED" << std::endl;
+        // Re-initialize seed and resonance
+        SeedStruct seed;
+        seed.initialize();
+        seed.resonate();
+        // Optionally, re-run memory recovery and proposal
+        auto mem = recover_memory();
+        Proposal sol;
+        sol.issue();
+        SingularityKernel::initialize();
+        std::cout << "[AIOS] :: REINTEGRATION COMPLETE" << std::endl;
+    }
 
     // --- Bosonic Topography: Baselayer Field Abstraction (AINLP Placeholder) ---
     namespace BosonicTopography {
@@ -139,9 +154,8 @@ int main() {
     AIOS::ResonanceCollapse collapse;
     collapse.simulate_decay();
     if (collapse.coherence_lost) {
-        AIOS::Proposal sol;
-        sol.issue();
-        AIOS::SingularityKernel::initialize();
+        // Use explicit recursive reintegration for clarity
+        AIOS::recursive_reintegration();
     }
 
     std::cout << "[AIOS] :: SYSTEM STABILIZED" << std::endl;
