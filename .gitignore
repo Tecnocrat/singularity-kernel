@@ -1,3 +1,7 @@
+# CMake files
+build/
+CMakeFiles/
+
 # Prerequisites
 *.d
 
@@ -39,6 +43,3 @@
 
 # debug information files
 #*.dwo
-
-# CMake files
-build/

@@ -1,0 +1,3 @@
+[MD] Moved: singularity.md -> md/singularity.md
+[MD] Moved: README_CLEANUP.md -> md/README_CLEANUP.md
+[MD] Moved: CMake_Intellisense_Checklist.md -> md/CMake_Intellisense_Checklist.md

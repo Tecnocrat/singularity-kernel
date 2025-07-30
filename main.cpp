@@ -140,24 +140,32 @@ void HumanInsight() {
 
 // === AIOS Unified Start Routine ===
 int main() {
+    // Set working directory to project root for all file operations
+    std::filesystem::current_path(std::filesystem::path(__FILE__).parent_path());
+    // Organize markdown files at program start
+    MarkdownManager::organizeMarkdownFiles(".");
     // === Phase 1: Minimal coherence test ===
-    // Use absolute path for robust image loading
-    std::string imgPath = "../tests/initial_context.png";
+    std::string imgPath = "tests/initial_context.png";
     std::cout << "[DEBUG] Attempting to load image from: " << std::filesystem::absolute(imgPath) << std::endl;
     cv::Mat ctx = cv::imread(imgPath);
     if (ctx.empty()) {
         std::cerr << "[ERROR] Could not load " << imgPath << ". Archiving for later analysis and creating new hyperlayer topography." << std::endl;
-        // Archive the missing or corrupted file path for later analysis
         std::ofstream archive("missing_image_archive.txt", std::ios::app);
         std::string absPath = std::filesystem::absolute(imgPath).string();
         std::time_t now = std::time(nullptr);
         archive << absPath << " | " << now << std::endl;
         archive.close();
+        // Move the problematic image to picArk using CoherenceEngine
+        CoherenceEngine engine;
+        std::string dest = "picArk/initial_context.png";
+        if (engine.moveFile(imgPath, dest)) {
+            std::cout << "[COHERENCE] Moved problematic image to: " << dest << std::endl;
+        }
         // Create a new synthetic hyperlayer topography (grayscale noise)
         ctx = cv::Mat::zeros(200, 200, CV_8UC1);
         cv::randu(ctx, 0, 255);
-        cv::imwrite("../tests/hyperlayer_synthetic.png", ctx);
-        std::cout << "[INFO] Created new synthetic hyperlayer: ../tests/hyperlayer_synthetic.png" << std::endl;
+        cv::imwrite("tests/hyperlayer_synthetic.png", ctx);
+        std::cout << "[INFO] Created new synthetic hyperlayer: tests/hyperlayer_synthetic.png" << std::endl;
     }
     Singularity::RestoreCoherence rc("tests/");
     rc.ingestContext("src/", "README.md", ctx);

@@ -3,6 +3,7 @@
 #include <string>
 #include <random>
 #include <iostream>
+#include <filesystem>
 
 struct DivergenceNode {
     std::string idea;
@@ -25,9 +26,46 @@ public:
         }
     }
 
+    // Move a file to a new location (creates target directory if needed)
+    bool moveFile(const std::string& source, const std::string& destination) {
+        try {
+            std::filesystem::path destPath(destination);
+            std::filesystem::create_directories(destPath.parent_path());
+            std::filesystem::rename(source, destination);
+            return true;
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::cerr << "[COHERENCE] File move failed: " << e.what() << std::endl;
+            return false;
+        }
+    }
+
 private:
     double mutate(const std::string& phrase) {
         std::hash<std::string> hasher;
         return static_cast<double>(hasher(phrase) % 10000) / 100.0;
     }
 };
+
+namespace MarkdownManager {
+    // Move all non-README .md files from project root to /md folder
+    void organizeMarkdownFiles(const std::string& projectRoot) {
+        namespace fs = std::filesystem;
+        fs::path root(projectRoot);
+        fs::path mdDir = root / "md";
+        fs::create_directories(mdDir);
+        for (const auto& entry : fs::directory_iterator(root)) {
+            if (entry.is_regular_file()) {
+                auto path = entry.path();
+                if (path.extension() == ".md" && path.filename() != "README.md") {
+                    fs::path dest = mdDir / path.filename();
+                    try {
+                        fs::rename(path, dest);
+                        std::cout << "[MD] Moved: " << path << " -> " << dest << std::endl;
+                    } catch (const fs::filesystem_error& e) {
+                        std::cerr << "[MD] Move failed: " << e.what() << std::endl;
+                    }
+                }
+            }
+        }
+    }
+}
