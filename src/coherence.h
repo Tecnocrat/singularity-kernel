@@ -4,6 +4,8 @@
 #include <random>
 #include <iostream>
 #include <filesystem>
+#include <fstream>
+#include <cmath>
 
 struct DivergenceNode {
     std::string idea;
@@ -37,6 +39,30 @@ public:
             std::cerr << "[COHERENCE] File move failed: " << e.what() << std::endl;
             return false;
         }
+    }
+
+    // Signal VSCode to trigger a rebuild/run if kernel logic requests it
+    void requestRebuild() {
+        std::ofstream flag(".singularity-rebuild-request");
+        flag << "rebuild requested" << std::endl;
+        flag.close();
+        std::cout << "[KERNEL] Rebuild request signal written to .singularity-rebuild-request" << std::endl;
+    }
+
+    // Generate a randomized fractal noise vector (for demonstration)
+    std::vector<double> generateFractalNoise(int size, int octaves = 4) {
+        std::vector<double> noise(size, 0.0);
+        std::mt19937 rng(std::random_device{}());
+        std::uniform_real_distribution<double> dist(0.0, 1.0);
+
+        for (int o = 0; o < octaves; ++o) {
+            double freq = std::pow(2.0, o);
+            double amp = std::pow(0.5, o);
+            for (int i = 0; i < size; ++i) {
+                noise[i] += amp * dist(rng) * std::sin(freq * i * 0.1);
+            }
+        }
+        return noise;
     }
 
 private:

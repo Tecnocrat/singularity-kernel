@@ -1,0 +1,35 @@
+{
+    // VSCode Task: Build and Run main.exe in MSVC Native Tools environment
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build & Run (MSVC Native Tools)",
+            "type": "shell",
+            "command": "call \"%ProgramFiles(x86)%\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat\" && cmake --build build && build\\Debug\\main.exe",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Watch & Build/Run (Singularity Kernel)",
+            "type": "shell",
+            "command": "powershell -Command \"while ($true) { if (Test-Path .singularity-rebuild-request) { Remove-Item .singularity-rebuild-request; call '%ProgramFiles(x86)%\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat'; cmake --build build; build\\Debug\\main.exe } Start-Sleep -Seconds 2 }\"",
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        }
+    ]
+}

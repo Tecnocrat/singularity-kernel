@@ -211,5 +211,11 @@ int main() {
     phantom.echo("Time is a loop with memory loss.");
     phantom.replay();
 
+    CoherenceEngine kernel;
+    auto fractal = kernel.generateFractalNoise(32);
+    std::cout << "[FRACTAL] ";
+    for (double v : fractal) std::cout << v << " ";
+    std::cout << std::endl;
+
     return 0;
 }
