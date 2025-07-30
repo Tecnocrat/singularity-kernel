@@ -20,7 +20,7 @@ public:
 
     void display() {
         for (auto& node : memory_lattice) {
-            std::cout << "[COHERENCE]  " << node.idea 
+            std::cout << "[COHERENCE] " << node.idea 
                       << " :: Resonance Score = " << node.resonanceScore << std::endl;
         }
     }
