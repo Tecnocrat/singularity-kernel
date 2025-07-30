@@ -34,6 +34,10 @@ namespace Singularity {
         std::vector<std::string> codeSnapshots_;
         cv::Mat lastContextImage_;
         CoherenceDelta lastDelta_;
+        // Topographic/tachyonic context
+        cv::Mat topographicLayer_;
+        int topoSeed_ = 42;
+        double topoDensity_ = 0.97;
 
         // Helpers
         double analyzeCodeEntropy();

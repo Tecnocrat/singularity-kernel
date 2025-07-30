@@ -23,13 +23,19 @@ add_library(restore_lib
 target_include_directories(restore_lib PUBLIC src src/restore)
 target_link_libraries(restore_lib PUBLIC ${OpenCV_LIBS} nlohmann_json::nlohmann_json)
 
+# Threshold library
+add_library(threshold_lib
+    src/restore/threshold_manager.cpp
+)
+target_link_libraries(threshold_lib PRIVATE restore_lib)
+
 # Main executable
 add_executable(main main.cpp)
-target_link_libraries(main PRIVATE restore_lib)
+target_link_libraries(main PRIVATE restore_lib threshold_lib)
 
 # Test executable
 add_executable(test_coherence tests/test_coherence.cpp)
-target_link_libraries(test_coherence PRIVATE restore_lib)
+target_link_libraries(test_coherence PRIVATE restore_lib threshold_lib)
 
 target_include_directories(main PRIVATE src src/restore)
 target_include_directories(test_coherence PRIVATE src src/restore)

@@ -1,5 +1,6 @@
 // restore_coherence.cpp
 #include "restore_coherence.h"
+#include "topography_manager.h"
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>    // for JSON output
@@ -48,14 +49,36 @@ bool RestoreCoherence::exportAICFrame(const std::string& outPath) {
     // 1. compute latest delta
     computeDelta();
 
-    // 2. write JSON
+    // 2. generate topographic/tachyonic layer
+    topographicLayer_ = Singularity::generateTachyonicTopography(200, 200, topoSeed_, topoDensity_);
+    std::string topoPngPath = outPath + "_topographic.png";
+    cv::imwrite(topoPngPath, topographicLayer_);
+
+    // 3. write JSON
     json j;
     j["timestamp"]     = makeTimestamp();
     j["entropyScore"]  = lastDelta_.entropyScore;
     j["codeSnapshots"] = codeSnapshots_;
+    j["topographicLayer"] = {
+        {"type", "tachyonic"},
+        {"dimensions", {200, 200}},
+        {"encoding", "fractal-noise"},
+        {"seed", topoSeed_},
+        {"density", topoDensity_},
+        {"data", topoPngPath}
+    };
+    j["baselayer"] = {
+        {"type", "high-density"},
+        {"scaffold", "AINLP"},
+        {"description", "Auto-coder stimulation layer for recursive context growth"}
+    };
+    j["hyperlayer"] = {
+        {"abstract", "Synthetic tachyonic field mimicking bosonic substrate"},
+        {"notes", "AINLP: This layer encodes digital context for future AI deep reading and codebase evolution."}
+    };
     std::ofstream(outPath + ".json") << j.dump(4);
 
-    // 3. save image snapshot
+    // 4. save image snapshot
     bool result = cv::imwrite(outPath + ".png", lastContextImage_);
     std::cout << "[RESTORE] exportAICFrame: end" << std::endl;
     return result;

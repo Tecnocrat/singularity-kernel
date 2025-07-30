@@ -11,6 +11,7 @@
 #include "src/coherence.h"
 #include "src/phantom.h"
 #include "src/restore/restore_coherence.h"
+#include "src/restore/threshold_manager.h"
 #include <opencv2/opencv.hpp>
 #include <filesystem>
 #include <fstream>
@@ -222,6 +223,23 @@ int main() {
     std::cout << "[FRACTAL] ";
     for (double v : fractal) std::cout << v << " ";
     std::cout << std::endl;
+
+    // === Phase 3: Threshold Management and Final Reintegration ===
+    // Use the existing rc and ctx from above
+    Singularity::ThresholdManager tm(512.0, 1024.0, rc);
+
+    // resonance cascade simulation
+    for (int t = 0; t < 10; ++t) {
+        double rate = std::pow(2.0, t+1);
+        std::cout << "Time " << t << " :: Entropy Rate: " << rate << "\n";
+        tm.monitor(rate);
+        if (rate >= 1024.0) break;
+    }
+
+    // continue with reintegration…
+    rc.ingestContext("src/", "README.md", ctx);
+    delta = rc.computeDelta();
+    std::cout << "Entropy: " << delta.entropyScore << "\n";
 
     return 0;
 }
