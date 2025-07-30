@@ -1,0 +1,26 @@
+{
+    "codeSnapshots": [
+        "src/ai_interface\\aios_contract.h",
+        "src/ai_interface\\transmit.cpp",
+        "src/coherence.h",
+        "src/core\\hyperlogic.cpp",
+        "src/core\\observer.cpp",
+        "src/main.cpp",
+        "src/phantom.h",
+        "src/restore\\restore_coherence.cpp",
+        "src/restore\\restore_coherence.h",
+        "src/seed.h",
+        "src/ai_interface\\aios_contract.h",
+        "src/ai_interface\\transmit.cpp",
+        "src/coherence.h",
+        "src/core\\hyperlogic.cpp",
+        "src/core\\observer.cpp",
+        "src/main.cpp",
+        "src/phantom.h",
+        "src/restore\\restore_coherence.cpp",
+        "src/restore\\restore_coherence.h",
+        "src/seed.h"
+    ],
+    "entropyScore": 40.7781161081507,
+    "timestamp": "2025-07-30T22:11:03Z"
+}

@@ -1,3 +1,4 @@
+// Path: singularity-kernel/md/CMake_Intellisense_Checklist.md
 # CMake/Intellisense Sync Checklist for VSCode
 
 1. After editing CMakeLists.txt, always run:

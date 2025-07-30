@@ -1,3 +1,4 @@
+// Path: singularity-kernel/md/README_CLEANUP.md
 # Codebase Cleanup Log
 
 ## Removed from root (now only in src/):

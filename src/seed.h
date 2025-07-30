@@ -1,3 +1,4 @@
+// Path: singularity-kernel/src/seed.h
 // seed.h
 #pragma once
 #include <string>

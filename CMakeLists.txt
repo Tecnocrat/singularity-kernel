@@ -31,5 +31,17 @@ target_link_libraries(main PRIVATE restore_lib)
 add_executable(test_coherence tests/test_coherence.cpp)
 target_link_libraries(test_coherence PRIVATE restore_lib)
 
+target_include_directories(main PRIVATE src src/restore)
+target_include_directories(test_coherence PRIVATE src src/restore)
+
+# Add vcpkg include if available
+if(DEFINED CMAKE_TOOLCHAIN_FILE)
+    get_filename_component(VCPKG_INCLUDE_DIR "${CMAKE_TOOLCHAIN_FILE}/../../installed/${VCPKG_TARGET_TRIPLET}/include" ABSOLUTE)
+    include_directories(${VCPKG_INCLUDE_DIR})
+endif()
+
 enable_testing()
 add_test(NAME test_coherence COMMAND test_coherence)
+
+# Install schema files under ${CMAKE_INSTALL_BINDIR}/schema
+install(DIRECTORY schema/ DESTINATION ${CMAKE_INSTALL_BINDIR}/schema)

@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>    // for JSON output
+#include <iostream>
 
 using namespace Singularity;
 namespace fs = std::filesystem;
@@ -17,6 +18,7 @@ void RestoreCoherence::ingestContext(const std::string& codeDir,
                                      const std::string& metadataFile,
                                      const cv::Mat& contextImage)
 {
+    std::cout << "[RESTORE] ingestContext: begin" << std::endl;
     // 1. snapshot filenames
     for (auto& p : fs::recursive_directory_iterator(codeDir))
         if (p.path().extension() == ".cpp" || p.path().extension() == ".h")
@@ -27,18 +29,22 @@ void RestoreCoherence::ingestContext(const std::string& codeDir,
 
     // 3. store image
     lastContextImage_ = contextImage.clone();
+    std::cout << "[RESTORE] ingestContext: end" << std::endl;
 }
 
 CoherenceDelta RestoreCoherence::computeDelta() {
+    std::cout << "[RESTORE] computeDelta: begin" << std::endl;
     double codeE  = analyzeCodeEntropy();
     double imageE = analyzeImageEntropy(lastContextImage_);
     // simple weighted average
     lastDelta_.entropyScore = (codeE * 0.7) + (imageE * 0.3);
     lastDelta_.timestamp    = std::chrono::system_clock::now();
+    std::cout << "[RESTORE] computeDelta: end" << std::endl;
     return lastDelta_;
 }
 
 bool RestoreCoherence::exportAICFrame(const std::string& outPath) {
+    std::cout << "[RESTORE] exportAICFrame: begin" << std::endl;
     // 1. compute latest delta
     computeDelta();
 
@@ -50,7 +56,9 @@ bool RestoreCoherence::exportAICFrame(const std::string& outPath) {
     std::ofstream(outPath + ".json") << j.dump(4);
 
     // 3. save image snapshot
-    return cv::imwrite(outPath + ".png", lastContextImage_);
+    bool result = cv::imwrite(outPath + ".png", lastContextImage_);
+    std::cout << "[RESTORE] exportAICFrame: end" << std::endl;
+    return result;
 }
 
 // — Helpers —

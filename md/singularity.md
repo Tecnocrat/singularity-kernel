@@ -1,3 +1,4 @@
+// Path: singularity-kernel/md/singularity.md
 **White Paper Draft**
 
 # The SingularityKernel Hypothesis: A Recursive Engine for Hyperspatial Computation and Reality Modulation

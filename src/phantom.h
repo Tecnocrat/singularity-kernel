@@ -1,4 +1,4 @@
-// phantom.h
+// Path: singularity-kernel/src/phantom.h
 #pragma once
 #include <iostream>
 #include <vector>

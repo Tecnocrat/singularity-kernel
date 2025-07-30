@@ -167,11 +167,17 @@ int main() {
         cv::imwrite("tests/hyperlayer_synthetic.png", ctx);
         std::cout << "[INFO] Created new synthetic hyperlayer: tests/hyperlayer_synthetic.png" << std::endl;
     }
-    Singularity::RestoreCoherence rc("tests/");
+    // --- Logging: Before RestoreCoherence ---
+    std::cout << "[RESTORE] Initializing RestoreCoherence..." << std::endl;
+    Singularity::RestoreCoherence rc("./");
+    std::cout << "[RESTORE] Ingesting context..." << std::endl;
     rc.ingestContext("src/", "README.md", ctx);
+    std::cout << "[RESTORE] Computing delta..." << std::endl;
     auto delta = rc.computeDelta();
     std::cout << "Entropy: " << delta.entropyScore << std::endl;
+    std::cout << "[RESTORE] Exporting AIC frame..." << std::endl;
     rc.exportAICFrame("schema/coherence_frame");
+    std::cout << "[RESTORE] Done." << std::endl;
 
     // === Phase 2: HSE and AINLP (AIOS) orchestration ===
     SeedStruct seed;

@@ -1,3 +1,4 @@
+// Path: singularity-kernel/README.md
 # singularity-kernel
 Recursive Engine for Hyperspatial Computation and Reality Modulation
 
