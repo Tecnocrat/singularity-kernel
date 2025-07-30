@@ -4,6 +4,14 @@ project(SingularityKernel)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# --- VCPKG integration (force toolchain if not set) ---
+
+# Set OpenCV_DIR if needed (update the path below to your OpenCV installation)
+# set(OpenCV_DIR "C:/path/to/opencv/build/x64/vc15/lib/cmake/opencv4")
+
+# Or add to CMAKE_PREFIX_PATH
+# list(APPEND CMAKE_PREFIX_PATH "C:/path/to/opencv/build/x64/vc15/lib/cmake/opencv4")
+
 # Find dependencies
 find_package(OpenCV REQUIRED)
 find_package(nlohmann_json 3.2.0 REQUIRED)
